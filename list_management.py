@@ -23,8 +23,14 @@ class list_management:
                 self.Add(self.valueX)
                 print(self.todo_list)
             elif self.process == "2":
-                valueX = input("Enter the to-do item to delete: ")
-                self.Delete(valueX)
+                while True:
+                    valueX = input("Enter the to-do item to delete: ")
+                    print(f"\n list = {self.todo_list}")
+                    if valueX in self.todo_list:
+                        self.Delete(valueX)
+                        break
+                    else:
+                        print("object not found try again")
             elif self.process == "3":
                 print("Exiting...")
                 break
