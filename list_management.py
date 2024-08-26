@@ -16,22 +16,19 @@ class list_management:
     def main(self):
         while True:
             print(f"\nYour to do list = {self.todo_list}")
-            self.process = input("Please enter the action you want to perform.\nAdd to do (1)\nDelete to do (2)\nExit (3)\nEnter(1/2/3): ")
+            process = input("Please enter the action you want to perform.\nAdd to do (1)\nDelete to do (2)\nExit (3)\nEnter(1/2/3): ")
 
-            if self.process == "1":
-                self.valueX = input("Enter your to-do items: ")
-                self.Add(self.valueX)
+            if process == "1":
+                valueX = input("Enter your to-do items: ")
+                self.Add(valueX)
                 print(self.todo_list)
-            elif self.process == "2":
-                while True:
-                    valueX = input("Enter the to-do item to delete: ")
-                    print(f"\n list = {self.todo_list}")
-                    if valueX in self.todo_list:
-                        self.Delete(valueX)
-                        break
-                    else:
-                        print("object not found try again")
-            elif self.process == "3":
+            elif process == "2":
+                valueX = input("Enter the to-do item to delete: ")
+                while valueX not in self.todo_list:
+                    print(f"\nYour list = {self.todo_list}")
+                    valueX = input("Item not found, try again: ")
+                self.Delete(valueX)
+            elif process == "3":
                 print("Exiting...")
                 break
             else:
