@@ -2,78 +2,92 @@ import random
 
 cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10,]
 chek_list = ["hit","stand"]
-
-#list
 ia_list = []
 ia_list_secret = ["*"]
 player_list = []
 
 player_num = 0
 ia_num = 0
+random_ia = 0
+random_player = 0
 
-def adding(user,list):
+#fonksiyonlar 
+def adding(user,list = list):
+    user = random.choice(cards)
+    list.append(user)
+
+def numdef(num_list):
+    total = 0
+    for numbers in num_list:
+        total += numbers
+    return total
+
+def game_chek(computer, player):
+    if computer > player:
+        print(f"******** Player Lost ********\nIa num = {computer}, Your num = {player}")
+        game = False
+    elif computer == player:
+        print(f"******** Draw ********\nIa num = {computer}, Your num = {player}")
+        game = False
+    else:
+        print(f"******** Player Win ********\nIa num = {computer}, Your num = {player}")
+        game = False
+
+
     pass
 
-def numdef(user,list):
-    for numbers in list:
-        user += numbers
-    pass
-
-#baslancig noktasi 2 tane random sayi aliniyor 
+#baslangic icin alinan 2 random sayi
 beginning = True
 while beginning:
 
-    random_ia = random.choice(cards)
-    ia_list.append(random_ia)
-    random_player = random.choice(cards)
-    player_list.append(random_player)
+    adding(random_ia, ia_list)
+    adding(random_player,player_list)
+
     if 2 == len(ia_list) and 2 == len(player_list):
         beginning = False
 
-#alinan random sayilari toplan alan ve bunlarin ciktida gozlenmesini saglayan diger kodlar
-for numbers in player_list:
-    player_num += numbers
+#alinan random sayilari toplayan alan ve bunlarin ciktida gozlenmesini saglayan diger kodlar
+player_num = numdef(player_list)
+ia_num = numdef(ia_list)
+ia_list_secret.append(ia_list[1])
 
-for numbers in ia_list:
-    ia_num += numbers
-
-print(f"Computer cards: \n{ia_list}  num = {ia_num}")
+print(f"Computer cards: \n{ia_list_secret}  num = {ia_num - ia_list[0]}")
 print(f"Your cards: \n{player_list}  num = {player_num}")
 
 game = True
 while game:
-    player_chek = input("contiune fo game 'hit' or finish this game 'stand':\n") .lower()
+    #kulanicinin yaptigi secimleri sorgulayan dongu
+    player_chek = input("\ncontiune fo game 'hit' or finish this game 'stand':\n") .lower()
     if player_chek == "hit":
-        random_player = random.choice(cards)
-        player_list.append(random_player)
+        adding(random_player,player_list)
         player_num += player_list[-1]
         print(f"Your cards: \n{player_list}  num = {player_num}")
         if player_num > 21:
-            print("lost !!")
+            print("\n************************* Player Lost *************************")
             game = False
     elif player_chek == "stand":
         computer = True
+        # bilgisayarin secimler yatigi kisimlar
         while computer:
             random_ia_chek = random.choice(chek_list)
-            print(random_ia_chek)
+            print(f"\ncomputer choice = {random_ia_chek}\n***************")
             if random_ia_chek == "hit":
-                random_ia = random.choice(cards)
-                ia_list.append(random_ia)
+                adding(random_ia, ia_list)
                 ia_num += ia_list[-1]
-                print(f"Computer cards: \n{ia_list}  num = {ia_num}")
+                ia_list_secret.append(random_ia)
                 if ia_num > 21:
-                    print("win !!")
-                    game = False
-            elif random_ia_chek == "stand":
-                if ia_num > player_num:
-                    print(f"Lost Ia num = {ia_num}, Your num = {player_num}")
-                    game = False
-                elif ia_num == player_num:
-                    print(f"Draw Ia num = {ia_num}, Your num = {player_num}")
+                    print("\n************************* Player Win *************************")
+                    print(f"Computer cards: \n{ia_list}  num = {ia_num}\n")
+                    print(f"Your cards: \n{player_list}  num = {player_num}\n")
+                    computer = False
                     game = False
                 else:
-                    print(f"Win Ia num = {ia_num}, Your num = {player_num}")
-                    game = False
+                    print(f"Computer cards: \n{ia_list_secret}  num = {ia_num - ia_list[0]}")
+            elif random_ia_chek == "stand":
+                print(f"Computer cards: \n{ia_list}  num = {ia_num}")
+                print("*********************************************")
+                print(f"Your cards: \n{player_list}  num = {player_num}")
+                game_chek(ia_num,player_num)
                 computer = False
                 game = False
 
